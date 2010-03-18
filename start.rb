@@ -1,10 +1,7 @@
 require 'rubygems'
 require 'ramaze'
 
-class Main < Ramaze::Controller
-    def index
-        'Hello, world!'
-    end
-end
+require 'model/init'
+require 'controller/actions'
 
-Ramaze.start
+Ramaze.start :adapter => :thin
