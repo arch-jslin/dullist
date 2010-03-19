@@ -5,10 +5,22 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
   </head>
   <body>
+    <form method="post" action="#{ route('create') }" >
+        <fieldset>
+            <legend>Adding todo items....</legend>
+            <label for="form-title">Task title: </label>
+            <input id="form-title" type="text" name="title" value="input here" />
+            <input type="submit" value="ADD" />
+        </fieldset>
+    </form>
     <h1>TodoList</h1>
     <ul>
       <?r Task.each do |task| ?>
-        <li>#{ h(task.title) }: #{ task.done }, #{ anchor('close', 'close', task.title) }</li>
+        <li>#{ h(task.title) }: #{ task.done }, 
+               #{ anchor('close', 'close', task.title) }
+               #{ anchor('open', 'open', task.title) }
+               #{ anchor('delete', 'delete', task.title) }
+        </li>
       <?r end ?>
     </ul>
   </body>
