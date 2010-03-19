@@ -1,5 +1,9 @@
 class Actions < Ramaze::Controller
   map '/'
+  
+  def index
+    @title = request[:title]
+  end
    
   def close(title)
     change_state(title) { |task| task.done = true }
@@ -12,6 +16,13 @@ class Actions < Ramaze::Controller
   def delete(title) 
     change_state(title) { |task| task.destroy }
   end
+    
+  def change_state(title, &action)
+    task = Task[:title => title]
+    action.call(task)
+    task.save unless task == nil  #not necessarily need this condition.
+    redirect_referrer
+  end
   
   def create
     if request.post? && title = request[:title]
@@ -19,15 +30,10 @@ class Actions < Ramaze::Controller
       title = h(title)
       Task.create :title => title unless title.empty?
     end
-      redirect_referrer
-    rescue Sequel::DatabaseError
-      redirect_referrer
-  end
-  
-  def change_state(title, &action)
-    task = Task[:title => title]
-    action.call(task)
-    task.save unless task == nil  #not necessarily need this condition.
-    redirect_referrer
+      redirect route('/', :title => title)
+    rescue Sequel::DatabaseError  
+    #expecting someone would insert tasks with the same name
+    #so we catch it here.
+      redirect route('/', :title => title)
   end
 end
