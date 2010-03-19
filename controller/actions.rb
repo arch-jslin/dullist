@@ -1,8 +1,13 @@
 class Actions < Ramaze::Controller
   map '/'
+  layout :default
   
   def index
     @title = request[:title]
+  end
+  
+  def done(title)
+    @title = title
   end
    
   def close(title)
