@@ -9,6 +9,10 @@ class Actions < Ramaze::Controller
   def done(title)
     @title = title
   end
+  
+  def back_to_main(title = '') #is this really necessary?
+    redirect route('/', :title => title)
+  end
    
   def close(title)
     change_state(title) { |task| task.done = true }
