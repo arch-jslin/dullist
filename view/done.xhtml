@@ -1,0 +1,9 @@
+    <h2>Done Tasks:</h2> #{ anchor('check pending tasks', 'index') }
+    <ul>
+      <?r Task.filter(:done => true).each do |task| ?>
+        <li>#{ h(task.title) }: #{ task.done }, 
+               #{ anchor('open', 'open', task.title) }
+               #{ anchor('delete', 'delete', task.title) }
+        </li>
+      <?r end ?>
+    </ul>
