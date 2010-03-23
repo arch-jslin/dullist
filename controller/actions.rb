@@ -3,6 +3,7 @@ class Actions < Ramaze::Controller
   layout :default
   
   def index
+    @@prefix = ''
     @title = request[:title]
   end
   

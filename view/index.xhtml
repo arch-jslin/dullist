@@ -1,6 +1,7 @@
     <table>
         <tr><th><h2>Pending Tasks:</h2></th>
-            <td>#{ anchor('check done tasks', 'done', @title) }</td>
+            <?r action_link = Actions.prefix + 'done' ?>
+            <td>#{ anchor('check done tasks', action_link, @title) }</td>
         </tr>
         
         <?r Task.filter(:done => false).each do |task| ?>
