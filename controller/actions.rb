@@ -2,8 +2,11 @@ class Actions < Ramaze::Controller
   map '/'
   layout :default
   
+  def Actions.prefix
+    ''
+  end
+  
   def index
-    @@prefix = ''
     @title = request[:title]
   end
   
