@@ -1,17 +1,12 @@
     <table>
         <tr><th><h2>Pending Tasks:</h2></th>
-            <?r action_link = Actions.prefix + 'done' 
-                close_link  = Actions.prefix + 'close'
-                delete_link = Actions.prefix + 'delete'
-            ?>
-            <td>#{ anchor('check done tasks', action_link, @title) }</td>
+            <td>#{ anchor('check done tasks', 'done', @title) }</td>
         </tr>
-        
-        <?r Task.filter(:done => false).each do |task| ?>
-            <tr><td>#{ h(task.title) }: #{ task.done }</td>
-                <td>#{ anchor('close', close_link, task.title) }</td>
-                <td>#{ anchor('delete', delete_link, task.title) }</td>
+        <?r @tasks.find_all{|t| !t.done }.each do |task| ?>
+            <tr><td>#{ h(task.title) }</td> 
+                <td>#{ task.status }</td>
+                <td>#{ task.toggle_link }</td>
+                <td>#{ task.delete_link }</td>
             </tr>
         <?r end ?>
-    
     </table>
