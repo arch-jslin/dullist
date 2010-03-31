@@ -1,12 +1,14 @@
     <table>
-        <tr><th><h2>Done Tasks:</h2></th>
-            <td>#{ anchor('check pending tasks', 'back_to_main', @title) }</td>
+        <caption>Table of Done Tasks</caption>    
+        <tr><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
         <?r @tasks.find_all{|t| t.done }.each do |task| ?>
-            <tr><td>#{ h(task.title) }</td> 
-                <td>#{ task.status }</td>
-                <td>#{ task.toggle_link }</td>
-                <td>#{ task.delete_link }</td>
+            <tr class="done">
+                <td class="title"> #{ h(task.title) }</td> 
+                <td class="status">#{ task.status }</td>
+                <td class="toggle">#{ task.toggle_link }</td>
+                <td class="delete">#{ task.delete_link }</td>
             </tr>
         <?r end ?>
+        <tr><td>#{ anchor('check pending tasks', 'back_to_main', @title) }</td></tr>
     </table>
