@@ -12,6 +12,8 @@
       $(document).ready( function() {
         $("#pending_table").tableDnD();
         $("#done_table").tableDnD();
+        $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
+        $("#toggler_b").click( function(){ $("#done_table").toggle(); } );
       });
     </script>
   

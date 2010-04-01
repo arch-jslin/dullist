@@ -23,11 +23,11 @@ module Dullist
     
     def toggle_link
       action = done ? 'open' : 'close'
-      Actions.anchor(action, href(action)) #this returns real anchor (link) in html
+      Actions.anchor(action, href(action)) #this returns real anchor (link) in string(html format)
     end
     
     def delete_link
-      Actions.anchor('delete', href('delete')) #this returns real anchor (link) in html
+      Actions.anchor('delete', href('delete')) #this returns real anchor (link) in string(html format)
     end
     
     def open!
