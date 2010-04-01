@@ -17,16 +17,19 @@ module Dullist
     end
    
     def close(title)
+      title = Ramaze::Helper::CGI.url_decode(title)
       Task[:title => title].close!
       redirect route('/', :title => title)
     end 
   
     def open(title)
+      title = Ramaze::Helper::CGI.url_decode(title)
       Task[:title => title].open!
-      redirect route('/done', :title => title)
+      redirect route('/', :title => title)
     end
   
     def delete(title) 
+      title = Ramaze::Helper::CGI.url_decode(title)
       Task[:title => title].destroy
       redirect route('/', :title => title)
     end

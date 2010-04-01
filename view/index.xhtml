@@ -1,4 +1,4 @@
-    <table>
+    <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
         <tr><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
@@ -10,5 +10,18 @@
                 <td class="delete">#{ task.delete_link }</td>
             </tr>
         <?r end ?>
-        <tr><td>#{ anchor('check done tasks', 'done', @title) }</td></tr>
     </table>
+    
+    <table id="done_table">
+        <caption>Table of Done Tasks</caption>    
+        <tr><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        </tr>
+        <?r @tasks.find_all{|t| t.done }.each do |task| ?>
+            <tr class="done">
+                <td class="title"> #{ h(task.title) }</td> 
+                <td class="status">#{ task.status }</td>
+                <td class="toggle">#{ task.toggle_link }</td>
+                <td class="delete">#{ task.delete_link }</td>
+            </tr>
+        <?r end ?>
+    </table>    

@@ -13,16 +13,12 @@ module Dullist
       create :title => 'Wash dishes'
     end
     #------------ instance parts below -------------
-    def encode(str)
-      Ramaze::Helper::CGI.url_encode(str)
-    end
-    
     def status
       done ? 'Done' : 'Pending'
     end
     
     def href(action)
-        Actions.route(action, encode(title)) #this generate a relative-path URI
+        Actions.route(action, Ramaze::Helper::CGI.url_encode(title)) #this generate a relative-path URI
     end
     
     def toggle_link
