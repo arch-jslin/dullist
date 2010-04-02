@@ -10,7 +10,11 @@
     
     <script type="text/javascript">
       $(document).ready( function() {
-        $("#pending_table").tableDnD();
+        $("#pending_table").tableDnD({ 
+          onDrop: function(table, row) {
+            alert($.tableDnD.serialize());
+          }
+        });
         $("#done_table").tableDnD();
         $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
         $("#toggler_b").click( function(){ $("#done_table").toggle(); } );
