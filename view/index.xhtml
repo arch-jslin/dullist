@@ -1,10 +1,11 @@
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
-        <tr><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr><th>No.</th><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
         <?r @tasks.find_all{|t| !t.done }.each do |task| ?>
             <tr class="pending">
+                <td class="title"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="status">#{ task.status }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
@@ -19,6 +20,7 @@
         </tr>
         <?r @tasks.find_all{|t| t.done }.each do |task| ?>
             <tr class="done">
+                <td class="title"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="status">#{ task.status }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
