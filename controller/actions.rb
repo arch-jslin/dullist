@@ -28,7 +28,7 @@ module Dullist
       redirect route('/', :title => title)
     end
   
-    def delete(title) 
+    def delete(title)
       title = Ramaze::Helper::CGI.url_decode(title)
       Task[:title => title].destroy
       redirect route('/', :title => title)
