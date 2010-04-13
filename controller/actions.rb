@@ -28,8 +28,9 @@ module Dullist
       if request.post? && title = request[:title]
         title.strip!
         title = h(title)
-        unless title.empty?
-            Task.create :title => title, :md5 => Digest::MD5.hexdigest(title) 
+        key = Digest::MD5.hexdigest(title)
+        unless title.empty? or Task[:md5 => key] != nil
+            Task.create :title => title, :md5 => key
         end
       end
         redirect route('/', :title => title)
