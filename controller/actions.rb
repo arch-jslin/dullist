@@ -6,39 +6,31 @@ module Dullist
       @title = request[:title]
       @tasks = Task.all
     end
-    
-    def done(title = '')
-      @title = title
-      @tasks = Task.all
-    end
   
-    def back_to_main(title = '') #is this really necessary?
-      redirect route('/', :title => title)
-    end
-   
-    def close(title)
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].close!
-      redirect route('/', :title => title)
+    def close(key)
+      task = Task[:md5 => key]
+      task.close!
+      redirect route('/', :title => task.title)
     end 
   
-    def open(title)
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].open!
-      redirect route('/', :title => title)
+    def open(key)
+      task = Task[:md5 => key]
+      task.open!
+      redirect route('/', :title => task.title)
     end
   
-    def delete(title) 
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].destroy
-      redirect route('/', :title => title)
+    def delete(key) 
+      Task[:md5 => key].destroy
+      redirect route('/')
     end
     
     def create
       if request.post? && title = request[:title]
         title.strip!
         title = h(title)
-        Task.create :title => title unless title.empty?
+        unless title.empty?
+            Task.create :title => title, :md5 => Digest::MD5.hexdigest(title) 
+        end
       end
         redirect route('/', :title => title)
       rescue Sequel::DatabaseError => ex
