@@ -1,10 +1,23 @@
+    <script type="text/javascript">
+      $(document).ready( function() {
+        $("#pending_table").tableDnD();
+        $("#done_table").tableDnD();
+        $("#save_table").click( function(){ 
+          alert( $("#pending_table").tableDnDSerialize() + "//" + $("#done_table").tableDnDSerialize() ); 
+        });
+        $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
+        $("#toggler_b").click( function(){ $("#done_table").toggle(); } );
+      });
+    </script>
+    
+    <p id="save_table">Save Data</p>
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
-        <tr><th>No.</th><th>Title</th><th>md5</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop"><th>No.</th><th>Title</th><th>md5</th><th>Priority</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
-        <?r @tasks.find_all{|t| !t.done }.each do |task| ?>
-            <tr class="pending">
+        <?r @tasks.find_all{|t| !t.done }.each_with_index do |task, i| ?>
+            <tr class="pending" id="P_#{i}">
                 <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>
@@ -17,10 +30,10 @@
     <p id="toggler_b">Show/Hide Toggle</p>
     <table id="done_table">
         <caption>Table of Done Tasks</caption>    
-        <tr><th>No.</th><th>Title</th><th>md5</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop"><th>No.</th><th>Title</th><th>md5</th><th>Priority</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
-        <?r @tasks.find_all{|t| t.done }.each do |task| ?>
-            <tr class="done">
+        <?r @tasks.find_all{|t| t.done }.each_with_index do |task, i| ?>
+            <tr class="done" id="D_#{i}">
                 <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>
