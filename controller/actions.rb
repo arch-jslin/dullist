@@ -7,7 +7,7 @@ module Dullist
       @tasks = Task.all
     end
     
-    def update2
+    def update
       p request[:pending_table].to_s + request[:done_table].to_s
     end
   

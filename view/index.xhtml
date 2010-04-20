@@ -3,10 +3,7 @@
         $("#pending_table").tableDnD({
           onDrop: function(){ 
             $("#save_table").html( 
-              "<a href='/update/"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
-            )
-            $("#save_table2").html( 
-              "<a href='/update2?"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
+              "<a href='/update?"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
             )
           }
         });
@@ -16,8 +13,7 @@
       });
     </script>
     
-    <p id="save_table">Save Data using action/param </p>
-    <p id="save_table2">Save Data using action?param=...</p>
+    <p id="save_table">Save Data using action?param... </p>
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
