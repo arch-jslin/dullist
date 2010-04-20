@@ -9,6 +9,8 @@ module Dullist
     
     def update
       p request[:pending_table].to_s + request[:done_table].to_s
+      #how do we assume order, or how to reflect the context of the ordered html table back into model?
+      #must read sequel's 'order' method
     end
   
     def close(key)
