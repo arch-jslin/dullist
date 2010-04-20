@@ -6,6 +6,10 @@ module Dullist
       @title = request[:title]
       @tasks = Task.all
     end
+    
+    def update2
+      p request[:pending_table].to_s + request[:done_table].to_s
+    end
   
     def close(key)
       task = Task[:md5 => key]

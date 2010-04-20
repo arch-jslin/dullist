@@ -1,16 +1,23 @@
     <script type="text/javascript">
       $(document).ready( function() {
-        $("#pending_table").tableDnD();
-        $("#done_table").tableDnD();
-        $("#save_table").click( function(){ 
-          alert( $("#pending_table").tableDnDSerialize() + "//" + $("#done_table").tableDnDSerialize() ); 
+        $("#pending_table").tableDnD({
+          onDrop: function(){ 
+            $("#save_table").html( 
+              "<a href='/update/"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
+            )
+            $("#save_table2").html( 
+              "<a href='/update2?"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
+            )
+          }
         });
+        $("#done_table").tableDnD();
         $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
         $("#toggler_b").click( function(){ $("#done_table").toggle(); } );
       });
     </script>
     
-    <p id="save_table">Save Data</p>
+    <p id="save_table">Save Data using action/param </p>
+    <p id="save_table2">Save Data using action?param=...</p>
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
