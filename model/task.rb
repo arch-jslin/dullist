@@ -1,15 +1,5 @@
 module Dullist
   class Task < Sequel::Model
-#    set_schema {
-#      primary_key :id
-#      varchar :title, :unique => true, :empty => false
-#      varchar :md5,   :unique => true, :empty => false
-#      boolean :done, :default => false
-#      integer :priority, :default => 1
-#    }
-
-#    create_table unless table_exists?
-   
     if empty?
       create :title => 'Laundry', :md5 => Digest::MD5.hexdigest('Laundry')
       create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')

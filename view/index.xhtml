@@ -17,7 +17,13 @@
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
-        <tr class="nodrag nodrop"><th>No.</th><th>Title</th><th>md5</th><th>Priority</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop">
+            <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=title">    Title</a></th>
+            <th><a href="/?order=md5">      md5</a></th>
+            <th><a href="/?order=priority"> Priority</a></th>
+            <th>Toggle</th>
+            <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| !t.done }.each_with_index do |task, i| ?>
             <tr class="pending" id="P_#{i}">
@@ -33,7 +39,13 @@
     <p id="toggler_b">Show/Hide Toggle</p>
     <table id="done_table">
         <caption>Table of Done Tasks</caption>    
-        <tr class="nodrag nodrop"><th>No.</th><th>Title</th><th>md5</th><th>Priority</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop">
+            <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=title">    Title</a></th>
+            <th><a href="/?order=md5">      md5</a></th>
+            <th><a href="/?order=priority"> Priority</a></th>
+            <th>Toggle</th>
+            <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| t.done }.each_with_index do |task, i| ?>
             <tr class="done" id="D_#{i}">
