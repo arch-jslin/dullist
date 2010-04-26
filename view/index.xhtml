@@ -26,7 +26,7 @@
             <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| !t.done }.each_with_index do |task, i| ?>
-            <tr class="pending" id="P_#{i}">
+            <tr class="pending" id="#{task.id}">
                 <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>
@@ -48,7 +48,7 @@
             <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| t.done }.each_with_index do |task, i| ?>
-            <tr class="done" id="D_#{i}">
+            <tr class="done" id="#{task.id}">
                 <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>

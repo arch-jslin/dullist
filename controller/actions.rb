@@ -9,7 +9,13 @@ module Dullist
     end
     
     def update
-      p request[:pending_table].to_s + request[:done_table].to_s
+      id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1]
+      id_collection.each_with_index { |id, i|
+        task = Task[:id => id]
+        task.priority = i
+        task.save
+      }
+      redirect route('/', :order => 'priority')
       #how do we assume order, or how to reflect the context of the ordered html table back into model?
       #must read sequel's 'order' method
     end
