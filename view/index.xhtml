@@ -16,7 +16,7 @@
     <p id="toggler_b">Show/Hide Toggle</p>
     <table id="done_table">
         <caption>Table of Done Tasks</caption>    
-        <tr><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr><th>No.</th><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
         </tr>
         <?r @tasks.find_all{|t| t.done }.each do |task| ?>
             <tr class="done">
