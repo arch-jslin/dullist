@@ -5,16 +5,19 @@ module Dullist
     def index
       @title = request[:title]
       @order = request[:order]
-      @tasks = @order ? Task.order(@order.to_sym).all : Task.all
+      @tasks = @order ? Task.order(@order.to_sym).all : Task.order(:priority).all 
+      #now we start using priority as the main order
     end
     
     def update
+      return unless request.post?
       id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1]
       id_collection.each_with_index { |id, i|
         task = Task[:id => id]
         task.priority = i
         task.save
       }
+      p 'before redirect'
       redirect route('/', :order => 'priority')
       #how do we assume order, or how to reflect the context of the ordered html table back into model?
       #must read sequel's 'order' method
