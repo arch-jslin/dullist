@@ -8,19 +8,6 @@
     <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
     <script type="text/javascript" src="/js/jquery.tablednd_0_5.js"></script>
     
-    <script type="text/javascript">
-      $(document).ready( function() {
-        $("#pending_table").tableDnD({ 
-          onDrop: function(table, row) {
-            alert($.tableDnD.serialize());
-          }
-        });
-        $("#done_table").tableDnD();
-        $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
-        $("#toggler_b").click( function(){ $("#done_table").toggle(); } );
-      });
-    </script>
-  
   </head>
   <body>
     <h1>TodoList</h1>

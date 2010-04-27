@@ -4,41 +4,50 @@ module Dullist
     
     def index
       @title = request[:title]
-      @tasks = Task.all
+      @order = request[:order]
+      @tasks = @order ? Task.order(@order.to_sym).all : Task.order(:priority).all 
+      #now we start using priority as the main order
     end
     
-    def done(title = '')
-      @title = title
-      @tasks = Task.all
+    def update
+      return unless request.post?
+      id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1]
+      id_collection.each_with_index { |id, i|
+        task = Task[:id => id]
+        task.priority = i
+        task.save
+      }
+      p 'before redirect'
+      redirect route('/', :order => 'priority')
+      #how do we assume order, or how to reflect the context of the ordered html table back into model?
+      #must read sequel's 'order' method
     end
   
-    def back_to_main(title = '') #is this really necessary?
-      redirect route('/', :title => title)
-    end
-   
-    def close(title)
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].close!
-      redirect route('/', :title => title)
+    def close(key)
+      task = Task[:md5 => key]
+      task.close!
+      redirect route('/', :title => task.title)
     end 
   
-    def open(title)
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].open!
-      redirect route('/', :title => title)
+    def open(key)
+      task = Task[:md5 => key]
+      task.open!
+      redirect route('/', :title => task.title)
     end
   
-    def delete(title)
-      title = Ramaze::Helper::CGI.url_decode(title)
-      Task[:title => title].destroy
-      redirect route('/', :title => title)
+    def delete(key) 
+      Task[:md5 => key].destroy
+      redirect route('/')
     end
     
     def create
       if request.post? && title = request[:title]
         title.strip!
         title = h(title)
-        Task.create :title => title unless title.empty?
+        key = Digest::MD5.hexdigest(title)
+        unless title.empty? or Task[:md5 => key] != nil
+          Task.create :title => title, :md5 => key
+        end
       end
         redirect route('/', :title => title)
       rescue Sequel::DatabaseError => ex

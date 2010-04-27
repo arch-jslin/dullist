@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'ramaze'
+require 'digest/md5'
 
 require 'controller/init'
 require 'model/init'

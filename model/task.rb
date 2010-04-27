@@ -1,16 +1,8 @@
 module Dullist
   class Task < Sequel::Model
-    set_schema {
-      primary_key :id
-      varchar :title, :unique => true, :empty => false
-      boolean :done, :default => false
-    }
-
-    create_table unless table_exists?
-
     if empty?
-      create :title => 'Laundry'
-      create :title => 'Wash dishes'
+      create :title => 'Laundry', :md5 => Digest::MD5.hexdigest('Laundry')
+      create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')
     end
     #------------ instance parts below -------------
     def status
@@ -18,7 +10,7 @@ module Dullist
     end
     
     def href(action)
-        Actions.route(action, Ramaze::Helper::CGI.url_encode(title)) #this generate a relative-path URI
+        Actions.route(action, md5) #this generate a relative-path URI
     end
     
     def toggle_link

@@ -1,13 +1,46 @@
+    <script type="text/javascript">
+      $(document).ready( function() {
+        $("#pending_table").tableDnD({
+          //onDrop: function(){ 
+          //  $("#save_table").html( 
+          //    "<a href='/update?"+$("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize()+"'>Save Data</a>"
+          //  )
+          //}
+        });
+        $("#done_table").tableDnD();
+        $("#toggler_a").click( function(){ $("#pending_table").toggle(); } );
+        $("#toggler_b").click( function(){ $("#done_table").toggle(); } );      
+      });
+      
+      function serializeAllTables(){
+        return $("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize();
+      }
+      function saveData(){
+        $.post("update", serializeAllTables());
+      }
+    </script>
+    
+    <!-- <p id="save_table">Save Data</p> -->
+    <p id="save_table" onclick="saveData()" style="cursor:pointer">
+        <a href="/index?order=priority">Save Data (Clickable Text)</a>
+    </p>
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
         <caption>Table of Pending Tasks</caption>
-        <tr><th>No.</th><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop">
+            <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=title">    Title</a></th>
+            <th><a href="/?order=md5">      md5</a></th>
+            <th><a href="/?order=priority"> Priority</a></th>
+            <th>Toggle</th>
+            <th>Delete</th>
         </tr>
-        <?r @tasks.find_all{|t| !t.done }.each do |task| ?>
-            <tr class="pending">
-                <td class="title"> #{ task.id }</td>
+        <?r @tasks.find_all{|t| !t.done }.each_with_index do |task, i| ?>
+            <tr class="pending" id="#{task.id}">
+                <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
-                <td class="status">#{ task.status }</td>
+                <td class="md5">   #{ task.md5 }</td>
+                <td class="priority">#{ task.priority }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
                 <td class="delete">#{ task.delete_link }</td>
             </tr>
@@ -16,13 +49,20 @@
     <p id="toggler_b">Show/Hide Toggle</p>
     <table id="done_table">
         <caption>Table of Done Tasks</caption>    
-        <tr><th>No.</th><th>Title</th><th>Status</th><th>Toggle</th><th>Delete</th></tr>
+        <tr class="nodrag nodrop">
+            <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=title">    Title</a></th>
+            <th><a href="/?order=md5">      md5</a></th>
+            <th><a href="/?order=priority"> Priority</a></th>
+            <th>Toggle</th>
+            <th>Delete</th>
         </tr>
-        <?r @tasks.find_all{|t| t.done }.each do |task| ?>
-            <tr class="done">
-                <td class="title"> #{ task.id }</td>
+        <?r @tasks.find_all{|t| t.done }.each_with_index do |task, i| ?>
+            <tr class="done" id="#{task.id}">
+                <td class="id"> #{ task.id }</td>
                 <td class="title"> #{ h(task.title) }</td> 
-                <td class="status">#{ task.status }</td>
+                <td class="md5">   #{ task.md5 }</td>
+                <td class="priority">#{ task.priority }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
                 <td class="delete">#{ task.delete_link }</td>
             </tr>
