@@ -1,12 +1,14 @@
 module Dullist
-  class CreateInitTableV1 < Sequel::Migration
+  class CreateInitTableV2 < Sequel::Migration
     def up
       create_table :tasks do
         primary_key :id
         varchar :title, :unique => true, :empty => false
         varchar :md5,   :unique => true, :empty => false
         boolean :done, :default => false
-        integer :priority, :default => 1
+        integer :priority, :default => 1    
+        boolean :urgent, :default => false
+        DateTime :time        
       end
     end
       

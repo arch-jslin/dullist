@@ -12,15 +12,15 @@ module Dullist
     def update
       return unless request.post?
       id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1]
+      p id_collection
       id_collection.each_with_index { |id, i|
         task = Task[:id => id]
-        task.priority = i
-        task.save
+        if task.priority != i 
+            task.priority = i
+            task.save
+        end
       }
-      p 'before redirect'
       redirect route('/', :order => 'priority')
-      #how do we assume order, or how to reflect the context of the ordered html table back into model?
-      #must read sequel's 'order' method
     end
   
     def close(key)
