@@ -7,9 +7,10 @@ module Dullist
 
   Sequel::Model.plugin(:schema)
   db = Sequel.sqlite(__DIR__'../dullist.db')
-  CreateInitTableV1.apply(db, :up) unless db.table_exists?('tasks')
+  #CreateInitTableV1.apply(db, :up) unless db.table_exists?('tasks')
   if db.table_exists?('tasks')
-    if db[:tasks].urgent == nil  #how do I make use of method missing here?
+    p db[:tasks].columns
+    if db[:tasks].columns.size == CreateInitTableV1.num_of_columns
       Migration_V1_V2.apply(db, :up)
     end
   else

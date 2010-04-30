@@ -29,18 +29,22 @@
         <caption>Table of Pending Tasks</caption>
         <tr class="nodrag nodrop">
             <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=urgent">   ** </a></th>
             <th><a href="/?order=title">    Title</a></th>
             <th><a href="/?order=md5">      md5</a></th>
             <th><a href="/?order=priority"> Priority</a></th>
+            <th><a href="/?order=time">     Time</a></th>
             <th>Toggle</th>
             <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| !t.done }.each_with_index do |task, i| ?>
             <tr class="pending" id="#{task.id}">
                 <td class="id"> #{ task.id }</td>
+                <td class="urgent">#{ task.urgent }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>
                 <td class="priority">#{ task.priority }</td>
+                <td class="time">  #{ task.time }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
                 <td class="delete">#{ task.delete_link }</td>
             </tr>
@@ -51,18 +55,22 @@
         <caption>Table of Done Tasks</caption>    
         <tr class="nodrag nodrop">
             <th><a href="/?order=id">       No.</a></th>    
+            <th><a href="/?order=urgent">   ** </a></th>
             <th><a href="/?order=title">    Title</a></th>
             <th><a href="/?order=md5">      md5</a></th>
             <th><a href="/?order=priority"> Priority</a></th>
+            <th><a href="/?order=time">     Time</a></th>
             <th>Toggle</th>
             <th>Delete</th>
         </tr>
         <?r @tasks.find_all{|t| t.done }.each_with_index do |task, i| ?>
             <tr class="done" id="#{task.id}">
                 <td class="id"> #{ task.id }</td>
+                <td class="urgent">#{ task.urgent }</td>
                 <td class="title"> #{ h(task.title) }</td> 
                 <td class="md5">   #{ task.md5 }</td>
                 <td class="priority">#{ task.priority }</td>
+                <td class="time">  #{ task.time }</td>
                 <td class="toggle">#{ task.toggle_link }</td>
                 <td class="delete">#{ task.delete_link }</td>
             </tr>

@@ -1,5 +1,8 @@
 module Dullist
   class CreateInitTableV2 < Sequel::Migration
+    def CreateInitTableV2.num_of_columns 
+      7
+    end
     def up
       create_table :tasks do
         primary_key :id
