@@ -12,7 +12,7 @@ module Dullist
     def update
       return unless request.post?
       id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1] 
-      p id_collection
+      #p id_collection #debug
       id_collection.each_with_index { |id, i|
         task = Task[:id => id]
         if task.priority != i 

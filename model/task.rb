@@ -1,5 +1,6 @@
 module Dullist
-  class Task < Sequel::Model
+  class Task < Sequel::Model(:tasks)
+    table_name = :tasks
     if empty?
       create :title => 'Laundry', :md5 => Digest::MD5.hexdigest('Laundry')
       create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')
