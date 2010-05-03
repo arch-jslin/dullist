@@ -11,7 +11,7 @@ module Dullist
     
     def update
       return unless request.post?
-      id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1]
+      id_collection = request[:pending_table][1..-1] + request[:done_table][1..-1] 
       p id_collection
       id_collection.each_with_index { |id, i|
         task = Task[:id => id]

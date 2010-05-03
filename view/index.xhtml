@@ -16,13 +16,13 @@
         return $("#pending_table").tableDnDSerialize()+"&"+$("#done_table").tableDnDSerialize();
       }
       function saveData(){
-        $.post("update", serializeAllTables());
+        $.post("update", serializeAllTables(), function() { location.reload(); });
       }
     </script>
     
     <!-- <p id="save_table">Save Data</p> -->
-    <p id="save_table" onclick="saveData()" style="cursor:pointer">
-        <a href="/index?order=priority">Save Data (Clickable Text)</a>
+    <p id="save_table" style="cursor:pointer">
+        <a href="#" onclick="saveData()">Save Data (Clickable Text)</a>
     </p>
     <p id="toggler_a">Show/Hide Toggle</p>
     <table id="pending_table">
