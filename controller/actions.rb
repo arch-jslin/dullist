@@ -16,8 +16,8 @@ module Dullist
       id_collection.each_with_index { |id, i|
         task = Task[:id => id]
         if task.priority != i 
-            task.priority = i
-            task.save
+          task.priority = i
+          task.save
         end
       }
       redirect route('/', :order => 'priority')
