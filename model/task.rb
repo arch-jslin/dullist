@@ -10,17 +10,17 @@ module Dullist
       done ? 'Done' : 'Pending'
     end
     
-    def href(action)
+    def linkto(action)
         Actions.route(action, md5) #this generate a relative-path URI
     end
     
     def toggle_link
       action = done ? 'open' : 'close'
-      Actions.anchor(action, href(action)) #this returns real anchor (link) in string(html format)
+      Actions.anchor(action, linkto(action)) #this returns real anchor (link) in string(html format)
     end
     
     def delete_link
-      Actions.anchor('delete', href('delete')) #this returns real anchor (link) in string(html format)
+      Actions.anchor('delete', linkto('delete')) #this returns real anchor (link) in string(html format)
     end
     
     def open!
@@ -31,6 +31,18 @@ module Dullist
     def close!
       self.done = true
       save
+    end
+
+    def parse_link
+      title.gsub(/((http|https|ftp):\/\/\S+.)/, "<a href='\1'>\1</a>") 
+    end
+    
+    def make_href
+      if href && href.length < 1
+        title
+      else
+        "<a href='#{href}'>#{title}</a>"
+      end
     end
   end
 end

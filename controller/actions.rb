@@ -43,10 +43,11 @@ module Dullist
     def create
       if request.post? && title = request[:title]
         title.strip!
-        title = h(title)
+        href = request[:href] ? request[:href].strip : ""
+        title = parse_link( h(title) )
         key = Digest::MD5.hexdigest(title)
         unless title.empty? or Task[:md5 => key] != nil
-          Task.create :title => title, :md5 => key, :time => DateTime.now, :urgent => false
+          Task.create :title => title, :md5 => key, :time => DateTime.now, :urgent => false, :href => href
         end
       end
         redirect route('/', :title => title)
