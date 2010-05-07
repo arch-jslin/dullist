@@ -5,6 +5,10 @@ module Dullist
       create :title => 'Laundry', :md5 => Digest::MD5.hexdigest('Laundry')
       create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')
     end
+    
+    def Task.parse_link(title)
+      title.gsub(/((http|https|ftp):\/\/\S+.)/) {|match| "<a href='#{match}' target='_blank'>#{match}</a>" }
+    end
     #------------ instance parts below -------------
     def status
       done ? 'Done' : 'Pending'
@@ -32,16 +36,12 @@ module Dullist
       self.done = true
       save
     end
-
-    def parse_link
-      title.gsub(/((http|https|ftp):\/\/\S+.)/, "<a href='\1'>\1</a>") 
-    end
     
     def make_href
-      if href && href.length < 1
+      if href == nil || href.length < 1
         title
       else
-        "<a href='#{href}'>#{title}</a>"
+        "<a href='#{href}' target='_blank'>#{title}</a>"
       end
     end
   end

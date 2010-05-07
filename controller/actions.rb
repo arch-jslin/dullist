@@ -44,17 +44,17 @@ module Dullist
       if request.post? && title = request[:title]
         title.strip!
         href = request[:href] ? request[:href].strip : ""
-        title = parse_link( h(title) )
+        title = Task.parse_link( h(title) )
         key = Digest::MD5.hexdigest(title)
         unless title.empty? or Task[:md5 => key] != nil
           Task.create :title => title, :md5 => key, :time => DateTime.now, :urgent => false, :href => href
         end
       end
-        redirect route('/', :title => title)
+        redirect route('/')
       rescue Sequel::DatabaseError => ex
         #expecting someone would insert tasks with the same name
         #so we catch it here.
-        redirect route('/', :title => title)
+        redirect route('/')
     end
   end
 end
