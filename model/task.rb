@@ -6,8 +6,23 @@ module Dullist
       create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')
     end
     
+    @@protocol = 'http|https|ftp'
+    @@suffix   = 'biz|com|edu|gov|info|mil|name|net|org'+
+                 '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|kr|nl|no|se|tw|uk|us'
+    @@autolink_regex = Regexp.new(
+      '( ('+@@protocol+')://)*'+       #add comments here
+      '( (\d{1,3}\.){3,3}\d{1,3}|'+  
+        '((-|\w)+\.)+('+@@suffix+')|'+ 
+        '((-|\w)+\.)*localhost )'+  
+      '(:\d{1,5})?'+                 
+      '(/\S+)*', Regexp::EXTENDED)
+    
     def Task.parse_link(title)
-      title.gsub(/((http|https|ftp):\/\/\S+.)/) {|match| "<a href='#{match}' target='_blank'>#{match}</a>" }
+      title.gsub(@@autolink_regex) {|match| 
+        link = match
+        link = 'http://' + link if (match[0..3] != 'http' && match[0..2] != 'ftp')
+        "<a href='#{link}' target='_blank'>#{match}</a>" 
+      }
     end
     #------------ instance parts below -------------
     def status
@@ -41,7 +56,9 @@ module Dullist
       if href == nil || href.length < 1
         title
       else
-        "<a href='#{href}' target='_blank'>#{title}</a>"
+        link = href
+        link = 'http://' + link if (href[0..3] != 'http' && href[0..2] != 'ftp')
+        "<a href='#{link}' target='_blank'>#{title}</a>"
       end
     end
   end
