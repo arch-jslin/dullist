@@ -10,12 +10,12 @@ module Dullist
     @@suffix   = 'biz|com|edu|gov|info|mil|name|net|org'+
                  '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|kr|nl|no|se|tw|uk|us'
     @@autolink_regex = Regexp.new(
-      '( ('+@@protocol+')://)*'+       #add comments here
-      '( (\d{1,3}\.){3,3}\d{1,3}|'+  
-        '((-|\w)+\.)+('+@@suffix+')|'+ 
-        '((-|\w)+\.)*localhost )'+  
-      '(:\d{1,5})?'+                 
-      '(/\S+)*', Regexp::EXTENDED)
+      '( ('+@@protocol+')://)*'+       #protocol is not necessarily needed. if not, http is used.
+      '( (\d{1,3}\.){3,3}\d{1,3}|'+    #the second part: it could be IPv4
+        '((-|\w)+\.)+('+@@suffix+')|'+ #  or suffixed with a valid domain
+        '((-|\w)+\.)*localhost )'+     #  or localhost
+      '(:\d{1,5})?'+                   #the third part: port number
+      '(/\S+)*', Regexp::EXTENDED)     #the last part : just get everything.
     
     def Task.parse_link(title)
       title.gsub(@@autolink_regex) {|match| 
