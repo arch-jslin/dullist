@@ -8,7 +8,7 @@ module Dullist
     
     @@protocol = 'http|https|ftp'
     @@suffix   = 'biz|com|edu|gov|info|mil|name|net|org'+
-                 '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|kr|nl|no|se|tw|uk|us'
+                 '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|kr|nl|no|ru|se|tw|uk|us'
     @@autolink_regex = Regexp.new(
       '( ('+@@protocol+')://)*'+       #protocol is not necessarily needed. if not, http is used.
       '( (\d{1,3}\.){3,3}\d{1,3}|'+    #the second part: it could be IPv4
