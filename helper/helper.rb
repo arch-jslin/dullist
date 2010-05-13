@@ -4,6 +4,9 @@ module Dullist
     PROTOCOL = 'http|https|ftp'
     SUFFIX   = %w[biz com edu gov info mil name net org 
                   aq au br ca ch cn cr cz de dk eg es eu fi fr gr hk it jp kr nl no ru se tw uk us].to_set
+    SUFFIX_MAP = Hash.new
+    SUFFIX.each { |e| SUFFIX_MAP[e] = '1' } #SUFFIX_MAP is only for perf testing usage.
+    
     AUTOLINK_REGEX = Regexp.new(
       '( ('+PROTOCOL+')://)*'+       #protocol is not necessarily needed. if not, http is used.
       '( (\d{1,3}\.){3,3}\d{1,3}|'+  #the second part: it could be IPv4
@@ -14,7 +17,7 @@ module Dullist
       
     def Helper.parse_link(str)
       str.gsub(AUTOLINK_REGEX) {|match| 
-        if SUFFIX.include?($7)      
+        if SUFFIX_MAP.include?($7)      
           make_href(match, match) 
         else 
           match

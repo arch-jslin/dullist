@@ -9,7 +9,9 @@ module Dullist
       '((-|\w)+\.)*localhost )'+   #  or localhost
     '(:\d{1,5})?'+                 #the third part: port number
     '(/\S+)*', Regexp::EXTENDED)   #the last part : just get everything.
+    
   def Dullist.regex_perf
+
 str = 'http://lalala
 https://123.345
 haha://www.google.com
@@ -27,7 +29,7 @@ http://github.com/archilifelin/dullist/blob/master/helper/helper.rb
 https://mail.google.com/mail/?ui=2&shva=1#buzz
 '
   t = Time.now
-  1000.times {
+  10000.times {
     str.gsub(AUTOLINK_REGEX2) {|p|
       temp = p
       temp = 'http://' + p if (p[0..3] != 'http' && p[0..2] != 'ftp')
@@ -37,7 +39,7 @@ https://mail.google.com/mail/?ui=2&shva=1#buzz
   p Time.now - t
   
   t = Time.now
-  1000.times {
+  10000.times {
     Helper.parse_link(str)
   }
   p Time.now - t
