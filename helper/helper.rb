@@ -2,8 +2,8 @@ module Dullist
   require 'set' #for converting array to set
   module Helper
     PROTOCOL = 'http|https|ftp'
-    SUFFIX   = ('biz|com|edu|gov|info|mil|name|net|org'+
-                '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|jp|kr|nl|no|ru|se|tw|uk|us').split('|').to_set
+    SUFFIX   = %w[biz com edu gov info mil name net org 
+                  aq au br ca ch cn cr cz de dk eg es eu fi fr gr hk it jp kr nl no ru se tw uk us].to_set
     AUTOLINK_REGEX = Regexp.new(
       '( ('+PROTOCOL+')://)*'+       #protocol is not necessarily needed. if not, http is used.
       '( (\d{1,3}\.){3,3}\d{1,3}|'+  #the second part: it could be IPv4
