@@ -1,4 +1,5 @@
 module Dullist
+  require 'set' #for converting array to set
   class Task < Sequel::Model(:tasks)
     table_name = :tasks
     if empty?
@@ -7,21 +8,25 @@ module Dullist
     end
     
     @@protocol = 'http|https|ftp'
-    @@suffix   = 'biz|com|edu|gov|info|mil|name|net|org'+
-                 '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|kr|nl|no|ru|se|tw|uk|us'
+    @@suffix   = ('biz|com|edu|gov|info|mil|name|net|org'+
+                  '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|jp|kr|nl|no|ru|se|tw|uk|us').split('|').to_set
     @@autolink_regex = Regexp.new(
       '( ('+@@protocol+')://)*'+       #protocol is not necessarily needed. if not, http is used.
       '( (\d{1,3}\.){3,3}\d{1,3}|'+    #the second part: it could be IPv4
-        '((-|\w)+\.)+('+@@suffix+')|'+ #  or suffixed with a valid domain
+        '((-|\w)+\.)+(\w+)|'+          #  or suffixed with a valid domain (we match the suffix($7) in gsub)
         '((-|\w)+\.)*localhost )'+     #  or localhost
       '(:\d{1,5})?'+                   #the third part: port number
       '(/\S+)*', Regexp::EXTENDED)     #the last part : just get everything.
     
     def Task.parse_link(title)
       title.gsub(@@autolink_regex) {|match| 
-        link = match
-        link = 'http://' + link if (match[0..3] != 'http' && match[0..2] != 'ftp')
-        "<a href='#{link}' target='_blank'>#{match}</a>" 
+        if @@suffix.include?($7) 
+          link = match
+          link = 'http://' + link if (match[0..3] != 'http' && match[0..2] != 'ftp')
+          "<a href='#{link}' target='_blank'>#{match}</a>" 
+        else 
+          match
+        end
       }
     end
     #------------ instance parts below -------------
