@@ -1,33 +1,10 @@
 module Dullist
-  require 'set' #for converting array to set
+  require 'helper/helper'
   class Task < Sequel::Model(:tasks)
     table_name = :tasks
     if empty?
       create :title => 'Laundry', :md5 => Digest::MD5.hexdigest('Laundry')
       create :title => 'Wash dishes', :md5 => Digest::MD5.hexdigest('Wash dishes')
-    end
-    
-    @@protocol = 'http|https|ftp'
-    @@suffix   = ('biz|com|edu|gov|info|mil|name|net|org'+
-                  '|aq|au|br|ca|ch|cn|cr|cz|de|dk|eg|es|eu|fi|fr|gr|hk|it|jp|kr|nl|no|ru|se|tw|uk|us').split('|').to_set
-    @@autolink_regex = Regexp.new(
-      '( ('+@@protocol+')://)*'+       #protocol is not necessarily needed. if not, http is used.
-      '( (\d{1,3}\.){3,3}\d{1,3}|'+    #the second part: it could be IPv4
-        '((-|\w)+\.)+(\w+)|'+          #  or suffixed with a valid domain (we match the suffix($7) in gsub)
-        '((-|\w)+\.)*localhost )'+     #  or localhost
-      '(:\d{1,5})?'+                   #the third part: port number
-      '(/\S+)*', Regexp::EXTENDED)     #the last part : just get everything.
-    
-    def Task.parse_link(title)
-      title.gsub(@@autolink_regex) {|match| 
-        if @@suffix.include?($7) 
-          link = match
-          link = 'http://' + link if (match[0..3] != 'http' && match[0..2] != 'ftp')
-          "<a href='#{link}' target='_blank'>#{match}</a>" 
-        else 
-          match
-        end
-      }
     end
     #------------ instance parts below -------------
     def status
@@ -47,6 +24,10 @@ module Dullist
       Actions.anchor('delete', linkto('delete')) #this returns real anchor (link) in string(html format)
     end
     
+    def href_or_title
+      Helper.make_href(href, title)
+    end
+    
     def open!
       self.done = false
       save
@@ -55,16 +36,6 @@ module Dullist
     def close!
       self.done = true
       save
-    end
-    
-    def make_href
-      if href == nil || href.length < 1
-        title
-      else
-        link = href
-        link = 'http://' + link if (href[0..3] != 'http' && href[0..2] != 'ftp')
-        "<a href='#{link}' target='_blank'>#{title}</a>"
-      end
     end
   end
 end

@@ -1,4 +1,5 @@
 module Dullist
+  require 'helper/helper'
   class Actions < Controller
     map '/' #this must be called in the derived class??
     
@@ -44,7 +45,7 @@ module Dullist
       if request.post? && title = request[:title]
         title.strip!
         href = request[:href] ? request[:href].strip : ""
-        title = Task.parse_link( h(title) )
+        title = Helper.parse_link( h(title) )
         key = Digest::MD5.hexdigest(title)
         unless title.empty? or Task[:md5 => key] != nil
           Task.create :title => title, :md5 => key, :time => DateTime.now, :urgent => false, :href => href
